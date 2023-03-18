@@ -1,56 +1,33 @@
 import { config } from "./config";
-import { firestore } from "./initialize";
-import {
-  readDataFromJsonFile,
-  read,
-  writeDataToJsonFile,
-  writeBatch,
-  writeBulk,
-  handleSuccess,
-  handleError,
-} from "./utils";
-
-const VALID_OPERATION_TYPE_REGEX = /push|pull/;
-const VALID_COLLECTION_PATH_REGEX =
-  /^\/?[A-Za-z0-9_]+(\/[A-Za-z0-9_]+\/[A-Za-z0-9_]+)*\/?$/;
-const VALID_DATA_FILE_PATH_REGEX = /^(\.\/)?(?:[\w-]+\/)*[\w-]+\.\w+$/;
-
-const handleConfigErrors = () => {
-  if (!VALID_OPERATION_TYPE_REGEX.test(config.OPERATION_TYPE)) {
-    handleError("Please specify a valid OPERATION_TYPE in src/config.ts");
-  }
-
-  if (!VALID_COLLECTION_PATH_REGEX.test(config.COLLECTION_PATH)) {
-    handleError("Please specify a valid COLLECTION_PATH in src/config.ts");
-  }
-
-  if (!VALID_DATA_FILE_PATH_REGEX.test(config.DATA_FILE_PATH)) {
-    handleError("Please specify a valid DATA_FILE_PATH in src/config.ts");
-  }
-};
+import { read, write } from "./utils/mutate";
+import { handleConfigErrors } from "./utils/validate";
+import { handleSuccess, handleError } from "./utils/output";
+import { writeDataToJsonFile, readDataFromJsonFile } from "./utils/files";
+import { Strategy } from "./types";
 
 const push = () => {
-  handleConfigErrors();
+  handleConfigErrors(config);
 
   const data = readDataFromJsonFile(config.DATA_FILE_PATH);
 
   const collectionPath = config.COLLECTION_PATH;
-  const allOrNothing = config.STRATEGY?.ATOMIC || false;
-  const merge = config.STRATEGY?.MERGE || false;
 
-  const write = allOrNothing ? writeBatch : writeBulk;
+  const strategy: Strategy = {
+    ATOMIC: config.STRATEGY?.ATOMIC || false,
+    MERGE: config.STRATEGY?.MERGE || false,
+  };
 
-  write(firestore, collectionPath, data, merge)
+  write(collectionPath, data, strategy)
     .then(() => handleSuccess("Documents pushed to firestore!"))
     .catch((error) => handleError(error.message));
 };
 
 const pull = () => {
-  handleConfigErrors();
+  handleConfigErrors(config);
 
   const collectionPath = config.COLLECTION_PATH;
 
-  read(firestore, collectionPath)
+  read(collectionPath)
     .then((data) => {
       writeDataToJsonFile(config.DATA_FILE_PATH, data);
       handleSuccess("Documents pulled from firestore!");
@@ -59,18 +36,12 @@ const pull = () => {
 };
 
 const main = () => {
-  handleConfigErrors();
+  handleConfigErrors(config);
 
   const operation = {
     push: push,
     pull: pull,
   }[config.OPERATION_TYPE];
-
-  if (!operation) {
-    throw new Error(
-      "Please specify a valid OPERATION_TYPE in src/config.ts. The value must be either 'push' or 'pull'."
-    );
-  }
 
   operation();
 };
