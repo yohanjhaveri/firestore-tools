@@ -43,11 +43,7 @@ const writeBulk = (
     return writer.close().then(resolve);
   });
 
-export const write = (
-  collectionPath: string,
-  data: LocalDocument[],
-  strategy: Strategy
-) => {
+export const write = (collectionPath: string, data: LocalDocument[], strategy: Strategy) => {
   const writer = strategy.ATOMIC ? writeBatch : writeBulk;
   const collectionRef = firestore.collection(collectionPath);
 

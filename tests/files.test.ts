@@ -11,8 +11,7 @@ describe("readDataFromJsonFile(path: string)", () => {
   });
 
   it("should exit if data in file is not in JSON format", () => {
-    const execute = () =>
-      readDataFromJsonFile("./tests/json-file-invalid-format");
+    const execute = () => readDataFromJsonFile("./tests/json-file-invalid-format");
     const message = "The data file is not in valid JSON format";
 
     expectError(execute, message);

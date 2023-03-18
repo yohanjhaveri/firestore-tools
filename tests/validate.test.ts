@@ -17,18 +17,14 @@ const testConfigInvalid = (config: Partial<Config>, message: string) => {
   expectError(() => handleConfigErrors(constructConfig(config)), message);
 };
 
-const testCollectionPathValidWithLeadingAndTrailingSlashes = (
-  collectionPath: string
-) => {
+const testCollectionPathValidWithLeadingAndTrailingSlashes = (collectionPath: string) => {
   testConfigValid({ COLLECTION_PATH: `${collectionPath}` });
   testConfigValid({ COLLECTION_PATH: `${collectionPath}/` });
   testConfigValid({ COLLECTION_PATH: `/${collectionPath}` });
   testConfigValid({ COLLECTION_PATH: `/${collectionPath}/` });
 };
 
-const testCollectionPathInvalidWithLeadingAndTrailingSlashes = (
-  collectionPath: string
-) => {
+const testCollectionPathInvalidWithLeadingAndTrailingSlashes = (collectionPath: string) => {
   const message = "Please specify a valid COLLECTION_PATH in src/config.ts";
 
   testConfigInvalid({ COLLECTION_PATH: `${collectionPath}` }, message);
@@ -43,10 +39,7 @@ describe("handleConfigErrors(config: Config)", () => {
     const message = "Please specify a valid OPERATION_TYPE in src/config.ts";
 
     testConfigInvalid({ OPERATION_TYPE: "" as "push" | "pull" }, message);
-    testConfigInvalid(
-      { OPERATION_TYPE: "invalid" as "push" | "pull" },
-      message
-    );
+    testConfigInvalid({ OPERATION_TYPE: "invalid" as "push" | "pull" }, message);
   });
 
   it("should not throw an error if the OPERATION_TYPE is valid", () => {
@@ -63,23 +56,15 @@ describe("handleConfigErrors(config: Config)", () => {
     testCollectionPathInvalidWithLeadingAndTrailingSlashes("/");
 
     // double slashes should fail
-    testCollectionPathInvalidWithLeadingAndTrailingSlashes(
-      `/${collectionName}`
-    );
-    testCollectionPathInvalidWithLeadingAndTrailingSlashes(
-      `${collectionName}/`
-    );
-    testCollectionPathInvalidWithLeadingAndTrailingSlashes(
-      `/${collectionName}/`
-    );
+    testCollectionPathInvalidWithLeadingAndTrailingSlashes(`/${collectionName}`);
+    testCollectionPathInvalidWithLeadingAndTrailingSlashes(`${collectionName}/`);
+    testCollectionPathInvalidWithLeadingAndTrailingSlashes(`/${collectionName}/`);
     testCollectionPathInvalidWithLeadingAndTrailingSlashes(
       `/${collectionName}//${documentName}/${collectionName}`
     );
 
     // document path should fail
-    testCollectionPathInvalidWithLeadingAndTrailingSlashes(
-      `${collectionName}/${documentName}`
-    );
+    testCollectionPathInvalidWithLeadingAndTrailingSlashes(`${collectionName}/${documentName}`);
 
     testCollectionPathInvalidWithLeadingAndTrailingSlashes(
       `${collectionName}/${documentName}/${collectionName}/${documentName}`
@@ -114,10 +99,7 @@ describe("handleConfigErrors(config: Config)", () => {
     // INVALID CHARACTERS
     testConfigInvalid({ DATA_FILE_PATH: "./my-folder/my-file!.txt" }, message);
     testConfigInvalid({ DATA_FILE_PATH: "./my folder/my_file.txt" }, message);
-    testConfigInvalid(
-      { DATA_FILE_PATH: "./../my-folder/my-file#.txt" },
-      message
-    );
+    testConfigInvalid({ DATA_FILE_PATH: "./../my-folder/my-file#.txt" }, message);
     testConfigInvalid({ DATA_FILE_PATH: "../my folder/my.file.txt" }, message);
 
     // INVALID FORMAT
