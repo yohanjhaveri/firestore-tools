@@ -3,7 +3,8 @@ import { Config } from "../types";
 const VALID_OPERATION_TYPE_REGEX = /push|pull/;
 const VALID_COLLECTION_PATH_REGEX =
   /^\/?[A-Za-z0-9_]+(\/[A-Za-z0-9_]+\/[A-Za-z0-9_]+)*\/?$/;
-const VALID_DATA_FILE_PATH_REGEX = /^(\.\/)?(?:[\w-]+\/)*[\w-]+\.\w+$/;
+const VALID_DATA_FILE_PATH_REGEX =
+  /^((\.{1,2}\/)+|(\.\/)?)(?:[\w\s-]+\/)*[\w\s-]+(?:\.\w+)?$/i;
 
 const validateOperationType = (operationType: string) => {
   if (!VALID_OPERATION_TYPE_REGEX.test(operationType)) {
