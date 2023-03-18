@@ -1,4 +1,3 @@
-import { handleError } from "./output";
 import { Config } from "../types";
 
 const VALID_OPERATION_TYPE_REGEX = /push|pull/;

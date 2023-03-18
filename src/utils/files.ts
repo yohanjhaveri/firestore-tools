@@ -1,5 +1,4 @@
 import fs from "fs";
-import { handleError } from "./output";
 
 const readFile = (path: string) => {
   try {
