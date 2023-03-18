@@ -1,0 +1,20 @@
+{
+  "name": "firestore-tools",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "execute": "node dist/index.js",
+    "config": "find . -name \"*-firebase-adminsdk-*.json\" -exec mv '{}' ./src/credentials.json \\;",
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "Yohan Jhaveri",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.0.2"
+  },
+  "dependencies": {
+    "firebase-admin": "^11.5.0"
+  }
+}
