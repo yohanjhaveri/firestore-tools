@@ -4,6 +4,7 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
+    "test": "jest",
     "execute": "node dist/index.js",
     "config": "find . -name \"*-firebase-adminsdk-*.json\" -exec mv '{}' ./src/credentials.json \\;",
     "build": "tsc"
@@ -12,6 +13,9 @@
   "author": "Yohan Jhaveri",
   "license": "MIT",
   "devDependencies": {
+    "@types/jest": "^29.5.0",
+    "jest": "^29.5.0",
+    "ts-jest": "^29.0.5",
     "typescript": "^5.0.2"
   },
   "dependencies": {
