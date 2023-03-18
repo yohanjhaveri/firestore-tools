@@ -1,6 +1,7 @@
 import { credential } from "firebase-admin";
 import { initializeApp } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
+import { config } from "./config";
 
 import credentials from "./credentials.json";
 
@@ -10,7 +11,6 @@ const app = initializeApp({
     privateKey: credentials.private_key,
     projectId: credentials.project_id,
   }),
-  databaseURL: "https://<YOUR_DATABASE_URL_HERE>.firebaseio.com", // TODO: replace with your database URL
 });
 
 export const firestore = getFirestore(app);
