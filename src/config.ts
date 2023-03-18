@@ -1,6 +1,6 @@
 import { Config } from "./types";
 
-// TODO: Configure the `config` object below to suit your needs
+// TODO: configure to suit your needs
 export const config: Config = {
   OPERATION_TYPE: "push",
   COLLECTION_PATH: "nfweo",

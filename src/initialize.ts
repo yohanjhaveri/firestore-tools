@@ -10,7 +10,7 @@ const app = initializeApp({
     privateKey: credentials.private_key,
     projectId: credentials.project_id,
   }),
-  databaseURL: "https://firechat-fd607.firebaseio.com",
+  databaseURL: "https://<YOUR_DATABASE_URL_HERE>.firebaseio.com", // TODO: replace with your database URL
 });
 
 export const firestore = getFirestore(app);
