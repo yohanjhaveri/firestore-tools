@@ -8,7 +8,6 @@ export type Execute = () => Promise<any>;
 
 export type Strategy = {
   merge: boolean;
-  mergeFields: string[];
   allOrNothing: boolean;
 };
 
@@ -19,6 +18,5 @@ export type Config = {
   STRATEGY: {
     ALL_OR_NOTHING: boolean;
     MERGE_EXISTING: boolean;
-    MERGE_FIELDS: string[];
   };
 };

@@ -7,7 +7,6 @@ export const config: Config = {
   DATA_FILE_PATH: "./src/data.json", // path to the json file where the data is stored
   STRATEGY: {
     ALL_OR_NOTHING: false, // if true, all documents must be written successfully or none will be written
-    MERGE_EXISTING: false, // if true, existing documents will be merged with the data in the json file
-    MERGE_FIELDS: [], // if "MERGE_EXISTING" is true, this array will be used to specify which fields to merge
+    MERGE_EXISTING: true, // if true, existing documents will be merged with the data in the json file
   },
 };
