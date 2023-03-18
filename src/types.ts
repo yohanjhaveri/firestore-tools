@@ -1,8 +1,3 @@
-export type Strategy = {
-  merge: boolean;
-  allOrNothing: boolean;
-};
-
 export type Config = {
   OPERATION_TYPE: "push" | "pull";
   COLLECTION_PATH: string;
