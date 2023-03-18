@@ -57,8 +57,8 @@ type Config = {
   
   // push-only configuration
   STRATEGY?: {
-    ALL_OR_NOTHING: boolean;
-    MERGE_EXISTING: boolean;
+    ATOMIC: boolean;
+    MERGE: boolean;
   };
 };
 ```
@@ -83,14 +83,14 @@ type Config = {
    - For a `"push"` operation, this will be the path to the file the data will be read from
    - NOTE: This file does not need to exist if you are performing a `"pull"` operation, however if there is a file with the same name at the specified location, it will be overwritten if the tool executes the `"pull"` successfully
 
-4. `STRATEGY.ALL_OR_NOTHING`
+4. `STRATEGY.ATOMIC`
    - Optional
    - Defaults to `false`
    - Only needs to be configured for `"push"` operations
    - If set to `true`, it will cancel all writes if a single write fails (atomic operation)
    - If set to `false`, it will perform all writes independent of whether others fail or not
 
-4. `STRATEGY.MERGE_EXISTING`
+4. `STRATEGY.MERGE`
    - Optional
    - Defaults to `false`
    - Only needs to be configured for `"push"` operations
@@ -113,8 +113,8 @@ const config: Config = {
   COLLECTION_PATH: "meetings",
   DATA_FILE_PATH: "./data.json",
   STRATEGY: {
-    ALL_OR_NOTHING: false,
-    MERGE_EXISTING: true,
+    ATOMIC: false,
+    MERGE: true,
   },
 };
 ```
