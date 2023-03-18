@@ -1,9 +1,11 @@
 export type Config = {
-  OPERATION_TYPE: "push" | "pull";
+  OPERATION_TYPE: "pull" | "push";
   COLLECTION_PATH: string;
   DATA_FILE_PATH: string;
-  STRATEGY: {
-    ALL_OR_NOTHING: boolean;
-    MERGE_EXISTING: boolean;
+
+  // push-only configuration
+  STRATEGY?: {
+    ATOMIC: boolean;
+    MERGE: boolean;
   };
 };
