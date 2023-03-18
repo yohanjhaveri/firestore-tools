@@ -51,7 +51,7 @@ export const write = (
   const writer = strategy.ATOMIC ? writeBatch : writeBulk;
   const collectionRef = firestore.collection(collectionPath);
 
-  return writer(collectionRef, data, strategy.MERGE);
+  return writer(collectionRef, data, strategy.MERGE || false);
 };
 
 export const read = <T extends { id?: string }>(collectionPath: string) => {

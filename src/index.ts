@@ -3,13 +3,13 @@ import { read, write } from "./utils/mutate";
 import { handleConfigErrors } from "./utils/validate";
 import { handleSuccess, handleError } from "./utils/output";
 import { writeDataToJsonFile, readDataFromJsonFile } from "./utils/files";
-import { Strategy } from "./types";
+import { LocalDocument, Strategy } from "./types";
 
 const push = async () => {
   try {
     handleConfigErrors(config);
 
-    const data = readDataFromJsonFile(config.DATA_FILE_PATH);
+    const data = readDataFromJsonFile(config.DATA_FILE_PATH) as LocalDocument[];
 
     const collectionPath = config.COLLECTION_PATH;
 
