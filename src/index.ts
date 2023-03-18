@@ -1,11 +1,11 @@
 import { config } from "./config";
 import { firestore } from "./initialize";
-import { Strategy } from "./types";
 import {
   readDataFromJsonFile,
   read,
-  write,
   writeDataToJsonFile,
+  writeBatch,
+  writeBulk,
 } from "./utils";
 
 const push = () => {
@@ -17,16 +17,15 @@ const push = () => {
     throw new Error("Please specify a json file path in src/config.ts");
   }
 
-  const collectionPath = config.COLLECTION_PATH;
   const data = readDataFromJsonFile(config.DATA_FILE_PATH);
 
-  const strategy: Strategy = {
-    merge: config.STRATEGY.MERGE_EXISTING,
-    mergeFields: config.STRATEGY.MERGE_FIELDS,
-    allOrNothing: config.STRATEGY.ALL_OR_NOTHING,
-  };
+  const allOrNothing = config.STRATEGY.ALL_OR_NOTHING;
+  const collectionPath = config.COLLECTION_PATH;
+  const merge = config.STRATEGY.MERGE_EXISTING;
 
-  write(firestore, collectionPath, data, strategy)
+  const write = allOrNothing ? writeBatch : writeBulk;
+
+  write(firestore, collectionPath, data, merge)
     .then(() => {
       console.log("Done!");
     })

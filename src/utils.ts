@@ -20,59 +20,48 @@ export const writeDataToJsonFile = <T>(path: string, data: T[]) => {
   fs.writeFileSync(path, json, "utf-8");
 };
 
-class Writer {
-  public enqueue: Enqueue;
-  public execute: Execute;
-
-  constructor(type: "BULK" | "BATCH") {
-    if (type === "BULK") {
-      const writer = firestore.bulkWriter();
-
-      this.enqueue = writer.set;
-      this.execute = () =>
-        new Promise((resolve, reject) => {
-          if (reject) {
-            writer.onWriteError(() => {
-              reject();
-              return false;
-            });
-          }
-
-          writer.close().then(resolve);
-        });
-    }
-
-    if (type === "BATCH") {
-      const writer = firestore.batch();
-
-      this.enqueue = writer.set;
-      this.execute = writer.commit;
-    }
-  }
-}
-
-export const write = <T extends { id?: string }>(
+export const writeBatch = <T extends { id?: string }>(
   firestore: FirebaseFirestore.Firestore,
   collectionPath: string,
   data: T[],
-  strategy: Strategy
+  merge: boolean
 ) => {
-  const writer = new Writer(strategy.allOrNothing ? "BATCH" : "BULK");
+  const writer = firestore.batch();
   const collectionRef = firestore.collection(collectionPath);
-
-  console.log((firestore as any)._isClosed);
 
   // Enqueue the documents to be written
   data.forEach(({ id, ...rest }) => {
-    writer.enqueue(collectionRef.doc(id.toString()), rest, {
-      merge: strategy.merge,
-      mergeFields: strategy.mergeFields,
-    });
+    writer.set(collectionRef.doc(id.toString()), rest, { merge });
   });
 
   // Execute the update
-  return writer.execute();
+  return writer.commit();
 };
+
+export const writeBulk = <T extends { id?: string }>(
+  firestore: FirebaseFirestore.Firestore,
+  collectionPath: string,
+  data: T[],
+  merge: boolean
+) =>
+  new Promise((resolve, reject) => {
+    const writer = firestore.bulkWriter();
+    const collectionRef = firestore.collection(collectionPath);
+
+    // Enqueue the documents to be written
+    data.forEach(({ id, ...rest }) => {
+      writer.set(collectionRef.doc(id.toString()), rest, { merge });
+    });
+
+    // Handle errors
+    writer.onWriteError((error) => {
+      resolve(error);
+      return false;
+    });
+
+    // Execute the update
+    return writer.close().then(resolve);
+  });
 
 export const read = <T extends { id?: string }>(
   firestore: FirebaseFirestore.Firestore,
