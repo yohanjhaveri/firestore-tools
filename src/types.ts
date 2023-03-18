@@ -1,11 +1,3 @@
-export type Enqueue = (
-  documentRef: FirebaseFirestore.DocumentReference,
-  data: any,
-  options?: FirebaseFirestore.SetOptions
-) => void;
-
-export type Execute = () => Promise<any>;
-
 export type Strategy = {
   merge: boolean;
   allOrNothing: boolean;

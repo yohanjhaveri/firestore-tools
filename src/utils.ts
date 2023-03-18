@@ -1,8 +1,5 @@
 import fs from "fs";
 
-import { firestore } from "./initialize";
-import { Enqueue, Execute, Strategy } from "./types";
-
 export const readDataFromJsonFile = <T>(path: string): T[] => {
   const json = fs.readFileSync(path, "utf-8");
   const data = JSON.parse(json);
