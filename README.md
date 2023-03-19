@@ -30,7 +30,7 @@ npm install
 ```
 
 4. Configure credentials
-- Click [here] and select your firebase project
+- Click [here](https://console.firebase.google.com/u/0/project/_/settings/serviceaccounts/adminsdk) and select your firebase project
 - Click on "Generate a new private key"
 - Click on the "Generate key" button to download your private key file
 - Place this file in the root of the cloned repository directory
