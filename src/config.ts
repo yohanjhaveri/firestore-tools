@@ -3,7 +3,7 @@ import { Config } from "./types";
 // TODO: configure to suit your needs
 export const config: Config = {
   OPERATION_TYPE: "push",
-  COLLECTION_PATH: "nfweo",
+  COLLECTION_PATH: "participants",
   DATA_FILE_PATH: "./src/data.json",
 
   // push-only configuration
@@ -35,14 +35,14 @@ export const config: Config = {
   - For a `"push"` operation, this will be the path to the file the data will be read from
   - NOTE: This file does not need to exist if you are performing a `"pull"` operation, however if there is a file with the same name at the specified location, it will be overwritten if the tool executes the `"pull"` successfully
 
-4. `STRATEGY.ALL_OR_NOTHING`
+4. `STRATEGY.ATOMIC`
   - Optional
   - Defaults to `false`
   - Only needs to be configured for `"push"` operations
   - If set to `true`, it will cancel all writes if a single write fails
   - If set to `false`, it will perform all writes independent of whether others fail or not
 
-4. `STRATEGY.MERGE_EXISTING`
+4. `STRATEGY.MERGE`
   - Optional
   - Defaults to `false`
   - Only needs to be configured for `"push"` operations
