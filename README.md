@@ -71,7 +71,7 @@ type Config = {
 2. `COLLECTION_PATH` (Required)
    - This will be the path to the collection in firestore you want to perform `"pull"` or `"push"` on
    - If you want to reference a collection at the root, you may simply write the collection name
-   - If you want to reference a sub-collection, you may write the path to the collection in the `collection/document/collection...`
+   - If you want to reference a sub-collection, you may write the path to the collection in the `collection/document/collection...` format
    - Ensure that the last segment of your path is a collection name
 
 3. `DATA_FILE_PATH` (Required)
